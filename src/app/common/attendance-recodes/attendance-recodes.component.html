@@ -1,0 +1,51 @@
+<ion-card>
+  <ion-card-header>
+    <ion-item-divider>
+      <ion-label>Attendance Records ({{ display_records.length }})</ion-label>
+    </ion-item-divider>
+  </ion-card-header>
+
+  <ion-card-content class="ion-no-padding">
+    <div style="overflow-x: auto;" *ngIf="display_records.length; else no_records">
+      <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+        <thead>
+          <tr>
+            <th style="border: 1px solid #ccc; padding: 6px;">Selfie</th>
+            <th style="border: 1px solid #ccc; padding: 6px;">Date</th>
+            <th style="border: 1px solid #ccc; padding: 6px;">In Time</th>
+            <th style="border: 1px solid #ccc; padding: 6px;">In Lat</th>
+            <th style="border: 1px solid #ccc; padding: 6px;">In Lng</th>
+            <th style="border: 1px solid #ccc; padding: 6px;">Out Time</th>
+            <th style="border: 1px solid #ccc; padding: 6px;">Out Lat</th>
+            <th style="border: 1px solid #ccc; padding: 6px;">Out Lng</th>
+            <th style="border: 1px solid #ccc; padding: 6px;">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let rec of display_records">
+            <td style="border: 1px solid #ccc; padding: 6px; text-align: center;">
+              <img *ngIf="rec.selfie_data_Url; else no_selfie" [src]="rec.selfie_data_Url"
+                   style="width: 36px; height: 36px; object-fit: cover; border-radius: 4px;" />
+              <ng-template #no_selfie>-</ng-template>
+            </td>
+            <td style="border: 1px solid #ccc; padding: 6px;">{{ rec.date }}</td>
+            <td style="border: 1px solid #ccc; padding: 6px;">{{ rec.in_time }}</td>
+            <td style="border: 1px solid #ccc; padding: 6px;">{{ rec.in_location?.latitude }}</td>
+            <td style="border: 1px solid #ccc; padding: 6px;">{{ rec.in_location?.longitude }}</td>
+            <td style="border: 1px solid #ccc; padding: 6px;">{{ rec.out_time || '-' }}</td>
+            <td style="border: 1px solid #ccc; padding: 6px;">{{ rec.out_location?.latitude || '-' }}</td>
+            <td style="border: 1px solid #ccc; padding: 6px;">{{ rec.out_location?.longitude || '-' }}</td>
+            <td style="border: 1px solid #ccc; padding: 6px;">
+              <ion-chip [color]="rec.is_punched_out ? 'medium' : 'success'" class="margin-start-0 margin-bottom-0">
+                {{ rec.is_punched_out ? 'Punched Out' : 'Active' }}
+              </ion-chip>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <ng-template #no_records>
+      <div class="ion-text-center" style="padding: 12px;">No attendance records yet.</div>
+    </ng-template>
+  </ion-card-content>
+</ion-card>

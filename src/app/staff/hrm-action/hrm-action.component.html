@@ -1,0 +1,213 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Hi {{ this.logged_user_details?.first_name +' '+ this.logged_user_details?.last_name }},
+    </ion-title>
+    <ion-buttons slot="end" (click)="logout()">
+      <ion-icon name="log-out-outline"></ion-icon>
+      <ion-label>Logout</ion-label>
+    </ion-buttons>
+
+   
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" color="light" class="ion-no-padding">
+
+    <ion-grid class="welcome-page-grid">
+
+      <!-- Selfie Section -->
+      <ion-row class="">
+        <ion-col size="12">
+          @if(is_show_mark_attendance_btn){
+            <app-selfie  (selfieCaptured)="onSelfieCaptured($event)"></app-selfie>
+          }
+          @else{
+            <div class="alert alert-info mt-5 pt-3 mb-0 text-center" role="alert">
+              Selfie already uploaded. Please check your attendance table.
+            </div>
+          }
+        </ion-col>
+      </ion-row>
+      
+      <!-- Make attendance action -->
+      <ion-row>
+        <ion-col>
+          @if(is_show_mark_attendance_btn){
+          <div>
+            <ion-card text-center *ngIf="is_skeleton_on" class="m-0">
+              <ion-card-header (click)="punch_in()">
+                <ion-card-subtitle>Punch</ion-card-subtitle>
+                <ion-card-title>
+                  <ion-chip color="success" class="margin-start-0 margin-bottom-0">In</ion-chip>
+                </ion-card-title>
+              </ion-card-header>
+            </ion-card>
+          </div>
+          }
+          @else {
+          @if(is_skeleton_on){
+          <ion-card text-center (click)="punch_out()" class="m-0">
+            <ion-card-header>
+              <ion-card-subtitle>Punch</ion-card-subtitle>
+              <ion-card-title>
+                <ion-chip color="danger" class="margin-start-0 margin-bottom-0">Out</ion-chip>
+              </ion-card-title>
+            </ion-card-header>
+          </ion-card>
+
+          }
+
+          }
+
+          <ion-card text-center *ngIf="!is_skeleton_on" class="m-0">
+            <ion-card-header>
+              <ion-card-subtitle><ion-skeleton-text animated
+                  style="width: 80px;"></ion-skeleton-text></ion-card-subtitle>
+              <ion-card-title color="danger"><ion-skeleton-text animated
+                  style="width: 50px; height: 15px;"></ion-skeleton-text></ion-card-title>
+            </ion-card-header>
+          </ion-card>
+
+
+        </ion-col>
+
+        <ion-col>
+          <ion-card text-center *ngIf="is_skeleton_on" class="working_time_card m-0">
+            <ion-card-header>
+              <ion-card-subtitle>Working time
+                <!-- !is_show_mark_attendance_btn it means user not logged yet -->
+                @if(!is_show_mark_attendance_btn){
+                <ion-icon name="refresh" color="tertiary" class="refresh_icon"
+                  ></ion-icon>
+                }
+
+
+              </ion-card-subtitle>
+              <ion-card-title>
+                <ion-chip color="tertiary" class="margin-start-0 margin-bottom-0">{{ total_office_in_time || '0:00'
+                  }}</ion-chip>
+              </ion-card-title>
+            </ion-card-header>
+          </ion-card>
+
+          <ion-card text-center *ngIf="!is_skeleton_on" class="m-0">
+            <ion-card-header>
+              <ion-card-subtitle><ion-skeleton-text animated
+                  style="width: 80px;"></ion-skeleton-text></ion-card-subtitle>
+              <ion-card-title color="danger"><ion-skeleton-text animated
+                  style="width: 50px; height: 15px;"></ion-skeleton-text></ion-card-title>
+            </ion-card-header>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-card text-center *ngIf="is_skeleton_on" class="m-0">
+            <ion-card-header>
+              <ion-card-subtitle>In time</ion-card-subtitle>
+              <ion-card-title>
+                <ion-chip color="medium" class="margin-start-0 margin-bottom-0"> {{ office_in_time || '0:00'
+                  }}</ion-chip>
+              </ion-card-title>
+            </ion-card-header>
+          </ion-card>
+
+          <ion-card text-center *ngIf="!is_skeleton_on" class="m-0">
+            <ion-card-header>
+              <ion-card-subtitle><ion-skeleton-text animated
+                  style="width: 80px;"></ion-skeleton-text></ion-card-subtitle>
+              <ion-card-title color="danger"><ion-skeleton-text animated
+                  style="width: 50px; height: 15px;"></ion-skeleton-text></ion-card-title>
+            </ion-card-header>
+          </ion-card>
+        </ion-col>
+
+        <ion-col>
+          <ion-card text-center class="m-0">
+            <ion-card-header>
+              <ion-card-subtitle>
+                Your Location
+              </ion-card-subtitle>
+              <ion-card-title color="medium">
+                <span color="success" *ngIf="user_full_location_obj.is_location; else off_location">
+                  <ion-chip color="success" class="margin-start-0 margin-bottom-0">On</ion-chip>
+                </span>
+                <ng-template #off_location>
+
+                  <ion-chip color="secondary" class="margin-start-0 margin-bottom-0">Off</ion-chip>
+                </ng-template>
+
+              </ion-card-title>
+            </ion-card-header>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+
+        <ion-col size="12">
+          <ion-card text-center>
+            <ion-card-header>
+              <button (click)="this.check_user_location()"> Check location</button>
+              <ion-item-divider>
+                <ion-label>MS Map </ion-label>
+              </ion-item-divider>
+
+            </ion-card-header>
+          </ion-card>
+
+        </ion-col>
+
+      </ion-row>
+
+      <ion-row>
+
+        <ion-col size="12">
+          <ion-card text-center>
+            <ion-card-header>
+              <ion-item-divider>
+                <ion-label>Map  location </ion-label>
+              </ion-item-divider>
+
+            </ion-card-header>
+
+            <ion-card-content>
+              <ion-item>
+                latitude : {{user_full_location_obj.latitude}}
+
+              </ion-item>
+              <ion-item>
+                longitude : {{user_full_location_obj.longitude}}
+
+              </ion-item>
+
+            </ion-card-content>
+
+            <!-- {{this.user_full_location_obj | json}} -->
+          </ion-card>
+
+        </ion-col>
+
+      </ion-row>
+
+      <!-- Attendance records (separate component) -->
+      <ion-row>
+        <ion-col size="12">
+          <app-attendance-recodes [attendance_records]="attendance_records"></app-attendance-recodes>
+        </ion-col>
+      </ion-row>
+
+        <!-- Attendance records (separate component) -->
+      <ion-row>
+        <ion-col size="12">
+          <!-- <app-attendance-record-list [attendance_records]="attendance_records"></app-attendance-record-list> -->
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-toast [isOpen]="!!toastMessage" [message]="toastMessage" duration="2000" position="top"
+      (didDismiss)="toastMessage=''">
+    </ion-toast>
+  </ion-content>

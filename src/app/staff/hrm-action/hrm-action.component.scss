@@ -1,0 +1,54 @@
+ion-card.working_time_card{
+    position: relative;
+    .refresh_icon{
+        font-size: 18px;
+        position: absolute;
+        top: -2px;
+        right: 0px;
+    }
+}
+
+.selfie-card {
+  border-radius: 16px;
+}
+
+.selfie-preview {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.selfie-preview img {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 16px;
+  border: 3px solid var(--ion-color-primary);
+}
+
+.selfie-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 180px;
+  border: 2px dashed #d6d6d6;
+  border-radius: 16px;
+  margin-bottom: 16px;
+}
+
+.selfie-placeholder ion-icon {
+  font-size: 70px;
+  color: var(--ion-color-medium);
+}
+
+.selfie-placeholder p {
+  margin-top: 10px;
+  color: var(--ion-color-medium);
+}
+
+.selfie-card ion-card-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}

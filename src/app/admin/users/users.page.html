@@ -1,0 +1,94 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Employees</ion-title>
+
+    <!-- <ion-buttons slot="end">
+      <ion-button color="light">
+        <ion-icon slot="start" name="person-add-outline"></ion-icon>
+        Add User
+      </ion-button>
+    </ion-buttons> -->
+  </ion-toolbar>
+
+  <ion-toolbar>
+    <ion-searchbar
+      placeholder="Search Employee">
+    </ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div class="table-container">
+
+    <table class="employee-table">
+
+      <thead>
+        <tr>
+          <th>Photo</th>
+          <th>Name</th>
+          <th>Department</th>
+          <th>Designation</th>
+          <th>Mobile</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr *ngFor="let user of users">
+
+          <td>
+            <img
+              [src]="user.image"
+              class="avatar"
+              onerror="this.src='assets/images/default-user.png'">
+          </td>
+
+          <td>{{user.name}}</td>
+
+          <td>{{user.department}}</td>
+
+          <td>{{user.designation}}</td>
+
+          <td>{{user.mobile}}</td>
+
+          <td>
+            <ion-badge
+              [color]="user.status=='Active' ? 'success' : 'danger'">
+              {{user.status}}
+            </ion-badge>
+          </td>
+
+          <td>
+
+            <ion-button
+              fill="clear"
+              color="primary"
+              size="small">
+
+              Edit
+
+            </ion-button>
+
+            <ion-button
+              fill="clear"
+              color="danger"
+              size="small">
+
+              Delete
+
+            </ion-button>
+
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</ion-content>

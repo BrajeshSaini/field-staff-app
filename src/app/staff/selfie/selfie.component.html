@@ -1,0 +1,43 @@
+<ion-card class="selfie-card staff-content">
+  <ion-card-header>
+    <ion-card-title>
+      <ion-icon name="camera-outline"></ion-icon>
+      Selfie Verification
+    </ion-card-title>
+    <ion-card-subtitle>
+      Take a selfie before marking attendance
+    </ion-card-subtitle>
+  </ion-card-header>
+
+  <ion-card-content>
+
+    <div class="selfie-preview" *ngIf="selfieImage && !isCapturing; else noImage">
+      <img [src]="selfieImage" alt="Selfie" />
+      <ion-icon
+        name="close-circle"
+        class="remove-icon"
+        (click)="removeSelfie()">
+      </ion-icon>
+    </div>
+
+    <ng-template #noImage>
+      <div class="selfie-placeholder">
+        <ion-spinner *ngIf="isCapturing" name="crescent"></ion-spinner>
+        <ng-container *ngIf="!isCapturing">
+          <ion-icon name="person-circle-outline"></ion-icon>
+          <p>No selfie captured</p>
+        </ng-container>
+      </div>
+    </ng-template>
+
+    <ion-button
+      expand="block"
+      color="primary"
+      [disabled]="isCapturing"
+      (click)="selfieImage ? retakeSelfie() : captureSelfie()">
+      <ion-icon slot="start" name="camera-outline"></ion-icon>
+      {{ selfieImage ? 'Retake Selfie' : 'Take Selfie' }}
+    </ion-button>
+
+  </ion-card-content>
+</ion-card>

@@ -1,0 +1,57 @@
+ion-content {
+  --background: #f5f7fb;
+}
+
+.table-container {
+  padding: 15px;
+  overflow-x: auto;
+}
+
+.employee-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.employee-table th {
+  background: #3880ff;
+  color: #fff;
+  padding: 14px;
+  text-align: left;
+}
+
+.employee-table td {
+  padding: 14px;
+  border-bottom: 1px solid #ececec;
+}
+
+.employee-table tr:hover {
+  background: #f7f8fc;
+}
+
+.avatar {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+@media (max-width:768px) {
+
+  .employee-table {
+    font-size: 13px;
+  }
+
+  .employee-table th,
+  .employee-table td {
+    padding: 8px;
+  }
+
+  .avatar {
+    width: 35px;
+    height: 35px;
+  }
+
+}
