@@ -63,7 +63,7 @@ export class HrmActionComponent implements OnInit, OnDestroy {
   is_enable_location: boolean = false;
 
   // Object — just { latitude, longitude, is_location }
-  logged_user_details!: LoggedUserDetails;
+  logged_user_details!: LoggedUserDetails | any;
   user_full_location_obj: { latitude?: number; longitude?: number; is_location?: boolean } = {};
 
   // All attendance records for this user, read from localStorage — for display in the table
