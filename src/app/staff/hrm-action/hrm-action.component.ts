@@ -170,17 +170,18 @@ export class HrmActionComponent implements OnInit, OnDestroy {
     }
   }
 
-  // Step 3 
-  /** Writes the full array of attendance records back to localStorage */
-  private write_all_attendance_records(records: AttendanceStorageRecord[]): void {
-    localStorage.setItem(this.get_storage_key(), JSON.stringify(records));
-  }
-
+  // Step 3
   /** Appends a new record to the array */
   private add_attendance_record(record: AttendanceStorageRecord): void {
     const records = this.read_all_attendance_records();
     records.push(record);
     this.write_all_attendance_records(records);
+  }
+
+  // Step 4 
+  /** Writes the full array of attendance records back to localStorage */
+  private write_all_attendance_records(records: AttendanceStorageRecord[]): void {
+    localStorage.setItem(this.get_storage_key(), JSON.stringify(records));
   }
 
   /** Finds today's record that has been punched in but not yet punched out */
