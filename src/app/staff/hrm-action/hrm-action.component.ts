@@ -37,6 +37,7 @@ export interface AttendanceStorageRecord {
   is_punched_out: boolean;
 }
 
+// Create prefix for sepacific user by user id
 const ATTENDANCE_STORAGE_PREFIX = 'attendance_records_'; // + user_id -> holds an ARRAY of records
 
 @Component({
@@ -121,12 +122,17 @@ export class HrmActionComponent implements OnInit, OnDestroy {
     return `${yyyy}-${mm}-${dd}`;
   }
 
-  /** localStorage key holding the full array of attendance records for this user */
+  // Step 1 
+  /*
+    * localStorage key holding the full array of attendance records for this user 
+    * reture like this "attendance_records_unknown" if no user id found if found this show like this "attendance_records_9" 
+  */
   private get_storage_key(): string {
     const user_id = this.logged_user_details?.user_id ?? 'unknown';
     return `${ATTENDANCE_STORAGE_PREFIX}${user_id}`;
   }
 
+  // Step 2
   /** Reads the full array of attendance records for this user (empty array if none yet) */
   private read_all_attendance_records(): AttendanceStorageRecord[] {
     const raw = localStorage.getItem(this.get_storage_key());
@@ -135,13 +141,36 @@ export class HrmActionComponent implements OnInit, OnDestroy {
     }
     try {
       const parsed = JSON.parse(raw);
-      return Array.isArray(parsed) ? parsed : [];
+      return Array.isArray(parsed) ? parsed : [];             /*
+                                                                  Array.isArray() is a built-in JavaScript function 
+                                                                  whose only job is to answer one question: 
+                                                                  "Is this value an array?" — returning true or false.
+
+                                                                  Array.isArray([1, 2, 3])        // true
+                                                                  Array.isArray(['a', 'b'])       // true
+                                                                  Array.isArray([])               // true  (empty array is still an array)
+
+                                                                  Array.isArray({ name: 'John' }) // false (it's an object, not an array)
+                                                                  Array.isArray('hello')          // false (it's a string)
+                                                                  Array.isArray(123)              // false (it's a number)
+                                                                  Array.isArray(null)             // false
+                                                                  Array.isArray(undefined)        // false
+
+                                                                  Why not just use typeof?
+
+                                                                  This is the key reason Array.isArray() exists. You'd think typeof could check this, but it can't — here's the problem:
+
+                                                                  typeof []              // "object"  😕
+                                                                  typeof [1, 2, 3]        // "object"  😕
+                                                                  typeof { foo: 'bar' }   // "object"  😕
+                                                              */
     } catch (e) {
       console.error('Failed to parse attendance records from localStorage', e);
       return [];
     }
   }
 
+  // Step 3 
   /** Writes the full array of attendance records back to localStorage */
   private write_all_attendance_records(records: AttendanceStorageRecord[]): void {
     localStorage.setItem(this.get_storage_key(), JSON.stringify(records));
